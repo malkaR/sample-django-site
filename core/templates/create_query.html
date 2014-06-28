@@ -1,0 +1,7 @@
+This is the create query form page
+
+
+<form action="/google/create/" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
