@@ -9,7 +9,7 @@ from django.shortcuts import render
 
 # list pages to see queries by tags and by categories and by users
 
-# 
+#
 # a main home page view to see categories and popular queries
 
 # views.py
@@ -22,14 +22,17 @@ class HomePageView(View):
 	def get(self, request, *args, **kwargs):
 		return render(request, self.template_name, {})
 
+class ProfileView(HomePageView):
+    pass
+
 class CreateQueryView(CreateView):
     template_name = 'create_query.html'
     form_class = GoogleQueryForm
-    
+
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-        
+
 
         http_response =  super(CreateQueryView, self).form_valid(form)
         form.get_suggestions()

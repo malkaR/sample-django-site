@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 # allauth views
 urlpatterns += patterns('',
     (r'^accounts/', include('allauth.urls')),
+    (r'^accounts/profile/', ProfileView.as_view()),
 )
 
 # core views
@@ -21,7 +22,14 @@ urlpatterns += patterns('core.views',
     # Examples:
     # url(r'^$', 'revealing_questions.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+    (r'^$', HomePageView.as_view(), {}, 'home'),
     (r'^home/$', HomePageView.as_view(), {}, 'home'),
     (r'^google/create/$', CreateQueryView.as_view(), {}, 'create_query'),
     (r'^google/create/thanks/$', ViewQueryView.as_view(), {}, 'created_thanks'),
 )
+
+from django.conf import settings
+if settings.DEBUG:
+    urlpatterns += patterns('django.contrib.staticfiles.views',
+        url(r'^static/(?P<path>.*)$', 'serve'),
+    )

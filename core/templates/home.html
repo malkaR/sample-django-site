@@ -1,3 +1,8 @@
-how are you 
+
 {% load socialaccount %}
+
+{% if user.is_authenticated %}
+how are you
+{% else %}
 <a href="{% provider_login_url "facebook" method="oauth2" %}">Login With Facebook</a>
+{% endif %}

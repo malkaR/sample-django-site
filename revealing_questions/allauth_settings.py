@@ -1,28 +1,28 @@
 from settings import INSTALLED_APPS, TEMPLATE_CONTEXT_PROCESSORS
 
 TEMPLATE_CONTEXT_PROCESSORS += (
-    
+
     # Required by allauth template tags
     "django.core.context_processors.request",
-    
+
     # allauth specific context processors
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
-    
+
 )
 
 AUTHENTICATION_BACKENDS = (
-    
+
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
 
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
-    
+
 )
 
 INSTALLED_APPS += (
-    
+
     # The Django sites framework is required
     'django.contrib.sites',
 
@@ -55,7 +55,7 @@ INSTALLED_APPS += (
     # 'allauth.socialaccount.providers.vk',
     # 'allauth.socialaccount.providers.weibo',
     # 'allauth.socialaccount.providers.xing',
-    
+
 )
 
 SITE_ID = 1
@@ -64,8 +64,15 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':
-       {'SCOPE': ['email', 'public_profile', 'user_friends', 'user_location'],
+       {'SCOPE': ['email'] , #, 'public_profile', 'user_friends', 'user_location'],
         # 'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
         'METHOD': 'oauth2',
         'LOCALE_FUNC': lambda request: 'en_US',
-        'VERIFIED_EMAIL': False}}
+        #'VERIFIED_EMAIL': False
+        }}
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none" # need smtp setup before switching to optional
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[myemail]"
+

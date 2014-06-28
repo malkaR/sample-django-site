@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "socialaccount.socialapp", "fields": {"name": "Crowdsourcing Searches - Test1", "sites": [1], "secret": "43f4611664fce2ac4bc23c5bc9b683c3", "client_id": "1632699376955768", "key": "", "provider": "facebook"}}, {"pk": 1, "model": "sites.site", "fields": {"domain": "http://css.pythonanywhere.com", "name": "CSS"}}]
