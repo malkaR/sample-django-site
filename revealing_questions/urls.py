@@ -4,10 +4,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'revealing_questions.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
 )
 
@@ -19,9 +15,6 @@ urlpatterns += patterns('',
 
 # core views
 urlpatterns += patterns('core.views',
-    # Examples:
-    # url(r'^$', 'revealing_questions.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
     (r'^$', HomePageView.as_view(), {}, 'home'),
     (r'^home/$', HomePageView.as_view(), {}, 'home'),
     (r'^searchquery/create/$', CreateQueryView.as_view(), {}, 'create_query'),

@@ -28,18 +28,17 @@ suggest_params = {
 }
 
 
-
 def get_query_params(query_terms):
     """format the search terms in to google get request parameters"""
     if isinstance(query_terms, list):
         query_terms = '%20'.join(query_terms)
- 	elif isinstance(query_terms, str):
- 	    query_terms = query_terms.replace(' ', '%20')
- 	suggest_params['q'] = query_terms
- 	final_query_params = {}
- 	final_query_params.update(static_params)
- 	final_query_params.update(suggest_params)
- 	return final_query_params
+    elif isinstance(query_terms, str):
+        query_terms = query_terms.replace(' ', '%20')
+    suggest_params['q'] = query_terms
+    final_query_params = {}
+    final_query_params.update(static_params)
+    final_query_params.update(suggest_params)
+    return final_query_params
 
 def download_suggestions(query_terms):
     """access the google url and convert the response to json"""
