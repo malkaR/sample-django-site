@@ -30,10 +30,11 @@ suggest_params = {
 
 
 def get_query_params(query_terms):
- 	if isinstance(query_terms, list):
- 		query_terms = '%20'.join(query_terms)
+    """format the search terms in to google get request parameters"""
+    if isinstance(query_terms, list):
+        query_terms = '%20'.join(query_terms)
  	elif isinstance(query_terms, str):
- 		query_terms = query_terms.replace(' ', '%20')
+ 	    query_terms = query_terms.replace(' ', '%20')
  	suggest_params['q'] = query_terms
  	final_query_params = {}
  	final_query_params.update(static_params)
@@ -41,10 +42,11 @@ def get_query_params(query_terms):
  	return final_query_params
 
 def download_suggestions(query_terms):
-	proxies = { "http": "proxy_server:proxy_port"}
-	resp = requests.get(base_url, params=get_query_params(query_terms), proxies=proxies)
-	content_text = resp.text[0:-6] #.replace('\\u003cb\\u003e', '').replace('\\u003c\\/b\\u003e', '')
-	return (json.loads(json.loads(content_text)['d']))[1]
+    """access the google url and convert the response to json"""
+    proxies = { "http": "proxy_server:proxy_port"}
+    resp = requests.get(base_url, params=get_query_params(query_terms), proxies=proxies)
+    content_text = resp.text[0:-6]
+    return (json.loads(json.loads(content_text)['d']))[1]
 
 
 

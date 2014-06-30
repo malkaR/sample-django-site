@@ -9,16 +9,12 @@ Google responds and says...
 maybe you would like to have a look at one of these?
 <ol>
 {% for item in object.suggestions.all %}
-    <li>{{ item.search_text | safe }}</li>
+    <li>{{ item.search_text | safe }} <a href="{{ item.google_search_url }}">--></a></li>
 {% endfor %}
 </ol>
 {% else %}
-Sorry, dude or gal, I have nothing to recommend
+Sorry, I have nothing to recommend.
 {% endif %}
-
-<!--p>What do you think?</p-->
-<!--p>let there be meaning: {{ object.meaning_comment }}</p>
-<p>'cause life is not so serious:  {{ object.humurous_comment }}</p-->
 
 <br><br><br>
 <p>Date: {{ object.created_on|date }}</p>

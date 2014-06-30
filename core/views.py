@@ -12,18 +12,6 @@ from allauth.account.decorators import login_required
 from models import UserGoogleQuery, UserQuerySuggestion
 from forms import GoogleQueryForm, GoogleQuery
 
-
-
-# a query view to see one query , its results, and its comments etc
-
-# a user view to see a user's queries and comments and activity
-
-# list pages to see queries by tags and by categories and by users
-
-#
-# a main home page view to see categories and popular queries
-
-
 class LoginRequiredBaseView(object):
 
     @method_decorator(login_required)
@@ -31,20 +19,14 @@ class LoginRequiredBaseView(object):
         return super(LoginRequiredBaseView, self).dispatch(*args, **kwargs)
 
 class HomePageView(ListView):
+    """THe home page lists and links to the search queries"""
     model = GoogleQuery
     template_name = 'home.html'
 
-# 	def get(self, request, *args, **kwargs):
-# 		return render(request, self.template_name, {})
-
-
-class ProfileView(HomePageView):
-    pass
-
 
 class CreateQueryView(LoginRequiredBaseView, CreateView):
+    """A form view for the logged in user to submit a search query"""
     template_name = 'create_query.html'
-    # model = UserGoogleQuery #TODO- is this needed at all?
     form_class = GoogleQueryForm
 
     def form_valid(self, form):
@@ -62,5 +44,10 @@ class CreateQueryView(LoginRequiredBaseView, CreateView):
 
 
 class ViewQueryView(LoginRequiredBaseView, DetailView):
+    """View information about an individual query and google's response to it"""
     model = UserGoogleQuery
     template_name = 'view_query.html'
+
+class ProfileView(HomePageView):
+    """allauth recommended creating this- TODO is it needed?"""
+    pass

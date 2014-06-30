@@ -73,6 +73,6 @@ SOCIALACCOUNT_PROVIDERS = \
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none" # need smtp setup before switching to optional
+ACCOUNT_EMAIL_VERIFICATION = "none" # TODO need smtp setup before switching to optional
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[myemail]"
 
