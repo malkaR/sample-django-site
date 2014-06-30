@@ -6,7 +6,7 @@ class GoogleQueryForm(forms.ModelForm):
 	google_query = forms.CharField(max_length=50)
 	class Meta:
 		model = UserGoogleQuery
-		exclude = ['suggestions', 'inspiration_query', 'inspiration_item', 'user']
+		exclude = ['suggestions', 'inspiration_query', 'inspiration_item', 'user', 'meaning_comment', 'humorous_comment']
 
 	def __init__(self, *args, **kwargs):
 		super(GoogleQueryForm, self).__init__(*args, **kwargs)
@@ -28,5 +28,5 @@ class GoogleQueryForm(forms.ModelForm):
 		return suggestions_list
 
 	def save_suggestions(self, suggestions_list):
-	    return [GoogleSuggestion.objects.get_or_create(suggestions=sug_text[0])[0] for sug_text in suggestions_list]
+	    return [GoogleSuggestion.objects.get_or_create(search_text=sug_text[0])[0] for sug_text in suggestions_list]
 

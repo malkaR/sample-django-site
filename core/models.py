@@ -1,10 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-class GoogleQuery(models.Model):
+class BaseFields(models.Model):
+    created_on = models.DateTimeField(auto_now_add=True, editable=False)
+
+    class Meta:
+        abstract = True
+
+class GoogleQuery(BaseFields):
 	query_terms = models.TextField()
-	# created_on = models.DateTimeField(auto_now_add=True)
+
 	# submitted = models.BooleanField()
 	# submitted_on = models.DateTimeField(null=True)
 
@@ -23,22 +28,20 @@ class GoogleQuery(models.Model):
 	def get_latest_userquery_url(self):
 	    return reverse('view_query', kwargs={'pk':str(self.latest_userquery.id)})
 
-class GoogleSuggestion(models.Model):
-	suggestions = models.TextField()
-	# created_on = models.DateTimeField(auto_now_add=True)
+class GoogleSuggestion(BaseFields):
+	search_text = models.TextField()
 
 	def __unicode__(self):
-	    return self.suggestions
+	    return self.search_text
 
-class UserGoogleQuery(models.Model):
+class UserGoogleQuery(BaseFields):
 	google_query = models.ForeignKey('GoogleQuery', related_name='google_query_set')
 	suggestions = models.ManyToManyField('GoogleSuggestion', through='UserQuerySuggestion')
 	user = models.ForeignKey('auth.User')
-	created_on = models.DateTimeField(auto_now_add=True)
 	inspiration_query = models.ForeignKey('GoogleQuery', null=True, default=None, related_name='inspiration_query_set')
 	inspiration_item = models.ForeignKey('UserGoogleQuery', null=True, default=None)
 	meaning_comment = models.TextField(blank=True)
-	humurous_comment = models.TextField(blank=True) # Spelling
+	humorous_comment = models.TextField(blank=True)
 
 	def __unicode__(self):
 		return '{} - created by {}'.format(self.google_query.query_terms, self.user.username)

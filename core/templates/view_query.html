@@ -9,7 +9,7 @@ Google responds and says...
 maybe you would like to have a look at one of these?
 <ol>
 {% for item in object.suggestions.all %}
-    <li>{{ item.suggestions | safe }}</li>
+    <li>{{ item.search_text | safe }}</li>
 {% endfor %}
 </ol>
 {% else %}
