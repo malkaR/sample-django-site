@@ -24,8 +24,8 @@ urlpatterns += patterns('core.views',
     # url(r'^blog/', include('blog.urls')),
     (r'^$', HomePageView.as_view(), {}, 'home'),
     (r'^home/$', HomePageView.as_view(), {}, 'home'),
-    (r'^google/create/$', CreateQueryView.as_view(), {}, 'create_query'),
-    (r'^google/create/thanks/$', ViewQueryView.as_view(), {}, 'created_thanks'),
+    (r'^searchquery/create/$', CreateQueryView.as_view(), {}, 'create_query'),
+    (r'^searchquery/view/(?P<pk>\d+)/$', ViewQueryView.as_view(), {}, 'view_query'),
 )
 
 from django.conf import settings

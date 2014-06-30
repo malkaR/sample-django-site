@@ -1,7 +1,7 @@
 from django.shortcuts import render
-# from django.http import HttpResponse
+from django.core.urlresolvers import reverse
+from models import UserGoogleQuery
 
-# a view to create a google query
 
 # a query view to see one query , its results, and its comments etc
 
@@ -12,9 +12,9 @@ from django.shortcuts import render
 #
 # a main home page view to see categories and popular queries
 
-# views.py
 from forms import GoogleQueryForm
-from django.views.generic.edit import FormView, CreateView, View
+from django.views.generic.edit import CreateView, View
+from django.views.generic.detail import DetailView
 
 class HomePageView(View):
 	template_name = 'home.html'
@@ -22,57 +22,26 @@ class HomePageView(View):
 	def get(self, request, *args, **kwargs):
 		return render(request, self.template_name, {})
 
+
 class ProfileView(HomePageView):
     pass
 
+
 class CreateQueryView(CreateView):
     template_name = 'create_query.html'
+    model = UserGoogleQuery
     form_class = GoogleQueryForm
 
     def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
-
-
         http_response =  super(CreateQueryView, self).form_valid(form)
-        form.get_suggestions()
+        print self.object
+        self.suggestions_list, self.query_obj = form.get_suggestions()
         return http_response
 
     def get_success_url(self):
-    	return '/google/create/thanks/'
-
-class ViewQueryView(View):
-	template_name = 'thanks.html'
-
-	def get(self, request, *args, **kwargs):
-		return render(request, self.template_name, {'content': 'you are awesome'})
+        return reverse('view_query', kwargs={'pk':str(self.get_form(self.form_class).instance.id)})
 
 
-
-
-
-
-
-
-# from django.http import HttpResponseRedirect
-# from django.shortcuts import render
-# from django.views.generic import View
-
-# from .forms import MyForm
-
-# class MyFormView(View):
-#     form_class = MyForm
-#     initial = {'key': 'value'}
-#     template_name = 'form_template.html'
-
-#     def get(self, request, *args, **kwargs):
-#         form = self.form_class(initial=self.initial)
-#         return render(request, self.template_name, {'form': form})
-
-#     def post(self, request, *args, **kwargs):
-#         form = self.form_class(request.POST)
-#         if form.is_valid():
-#             # <process form cleaned data>
-#             return HttpResponseRedirect('/success/')
-
-#         return render(request, self.template_name, {'form': form})
+class ViewQueryView(DetailView):
+    model = UserGoogleQuery
+    template_name = 'view_query.html'

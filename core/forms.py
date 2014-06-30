@@ -1,11 +1,11 @@
 from django import forms
-import models as models
+from models import UserGoogleQuery, GoogleQuery
 from util import download_suggestions
 
 class GoogleQueryForm(forms.ModelForm):
 	google_query = forms.CharField(max_length=50)
 	class Meta:
-		model = models.UserGoogleQuery
+		model = UserGoogleQuery
 		exclude = ['suggestions', 'inspiration_query', 'inspiration_item']
 
 	def __init__(self, *args, **kwargs):
@@ -17,17 +17,14 @@ class GoogleQueryForm(forms.ModelForm):
 		data = self.cleaned_data['google_query']
 		self.original_query_terms = data
 		query_data = ' '.join(data.split())
-		obj, created = models.GoogleQuery.objects.get_or_create(query_terms=query_data)
-	 	return obj
-	
-	def save(self, *args, **kwargs):
-		
-		
-		super(GoogleQueryForm, self).save(*args, **kwargs)
+		self.obj, created = GoogleQuery.objects.get_or_create(query_terms=query_data)
+	 	return self.obj
 
 	def get_suggestions(self):
-		
-		download_suggestions(self.original_query_terms)
+		suggestions_list = download_suggestions(self.original_query_terms)
+		return (suggestions_list, self.obj)
 
-	# def save(self, *args, **kwargs):
-		
+	def save(self, *args, **kwargs):
+	    super(GoogleQueryForm, self).save(*args, **kwargs)
+	    return self.instance
+
