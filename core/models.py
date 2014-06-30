@@ -11,6 +11,18 @@ class GoogleQuery(models.Model):
 	def __unicode__(self):
 		return self.query_terms
 
+	@property
+	def latest_suggestion_set(self):
+	    return self.latest_userquery.suggestions.all()
+
+	@property
+	def latest_userquery(self):
+	    return self.google_query_set.latest('created_on')
+
+	@property
+	def get_latest_userquery_url(self):
+	    return reverse('view_query', kwargs={'pk':str(self.latest_userquery.id)})
+
 class GoogleSuggestion(models.Model):
 	suggestions = models.TextField()
 	# created_on = models.DateTimeField(auto_now_add=True)

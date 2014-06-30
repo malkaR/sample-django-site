@@ -1,8 +1,20 @@
-
+{% extends "base.html" %}
 {% load socialaccount %}
 
+{% block content %}
 {% if user.is_authenticated %}
-how are you
+
+    {% if object_list %}
+        <p>For some reason someone started typing these search terms in to google. And google being google, one must wonder, what happened next?</p>
+        <ul>
+            {% for query_item in object_list %}
+                <li><a href="{{query_item.get_latest_userquery_url}}">{{ query_item.query_terms }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
 {% else %}
-<a href="{% provider_login_url "facebook" method="oauth2" %}">Login With Facebook</a>
+    <p>Log in to get started</p>
+    <a href="{% provider_login_url "facebook" method="oauth2" %}">You can do that with Facebook</a>
 {% endif %}
+{% endblock %}

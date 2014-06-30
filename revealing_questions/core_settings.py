@@ -54,6 +54,10 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'django.contrib.auth.context_processors.auth',
 )
 
+TEMPLATE_DIRS = (
+    'sample-django-site/templates',
+)
+
 ROOT_URLCONF = 'revealing_questions.urls'
 
 WSGI_APPLICATION = 'revealing_questions.wsgi.application'
