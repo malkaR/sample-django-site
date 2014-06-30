@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
-from models import UserGoogleQuery
+from models import UserGoogleQuery, UserQuerySuggestion
 
 
 # a query view to see one query , its results, and its comments etc
@@ -29,13 +29,14 @@ class ProfileView(HomePageView):
 
 class CreateQueryView(CreateView):
     template_name = 'create_query.html'
-    model = UserGoogleQuery
+    # model = UserGoogleQuery #TODO- is this needed at all?
     form_class = GoogleQueryForm
 
     def form_valid(self, form):
         http_response =  super(CreateQueryView, self).form_valid(form)
-        print self.object
-        self.suggestions_list, self.query_obj = form.get_suggestions()
+        suggestions_list = form.process_suggestions()
+        for index, result in enumerate(suggestions_list):
+            UserQuerySuggestion.objects.create(suggestion=result, user_query=self.object, rank=index+1)
         return http_response
 
     def get_success_url(self):

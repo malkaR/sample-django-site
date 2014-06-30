@@ -1,7 +1,23 @@
-<h1>{{ object.google_query.query_terms }}</h1>
-<p>Created by: {{ object.user.username }}</p>
-<p>'let there be meaning: {{ object.meaning_comment }}</p>
-<p>'cause life is not so serious:  {{ object.humurous_comment }}</p>
+<p>This is me: {{ object.user.username }}</p>
+<p>I started typing... '{{ object.google_query.query_terms }}'</p>
+
+Google responds and says...
+{% if object.suggestions.all %}
+maybe I would like to have a look at one of these?
+<ol>
+{% for item in object.suggestions.all %}
+    <li>{{ item.suggestions | safe }}</li>
+{% endfor %}
+</ol>
+{% else %}
+Sorry, dude, I have nothing to recommend
+{% endif %}
+
+<p>What do you think?</p>
+<!--p>let there be meaning: {{ object.meaning_comment }}</p>
+<p>'cause life is not so serious:  {{ object.humurous_comment }}</p-->
+
+<br><br><br>
 <p>Date: {{ object.created_on|date }}</p>
 
 

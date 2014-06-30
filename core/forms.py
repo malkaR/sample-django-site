@@ -1,5 +1,5 @@
 from django import forms
-from models import UserGoogleQuery, GoogleQuery
+from models import UserGoogleQuery, GoogleQuery, GoogleSuggestion
 from util import download_suggestions
 
 class GoogleQueryForm(forms.ModelForm):
@@ -20,9 +20,15 @@ class GoogleQueryForm(forms.ModelForm):
 		self.obj, created = GoogleQuery.objects.get_or_create(query_terms=query_data)
 	 	return self.obj
 
+	def process_suggestions(self):
+	    return self.save_suggestions(self.get_suggestions())
+
 	def get_suggestions(self):
 		suggestions_list = download_suggestions(self.original_query_terms)
-		return (suggestions_list, self.obj)
+		return suggestions_list
+
+	def save_suggestions(self, suggestions_list):
+	    return [GoogleSuggestion.objects.get_or_create(suggestions=sug_text[0])[0] for sug_text in suggestions_list]
 
 	def save(self, *args, **kwargs):
 	    super(GoogleQueryForm, self).save(*args, **kwargs)

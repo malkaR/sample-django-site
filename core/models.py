@@ -15,6 +15,9 @@ class GoogleSuggestion(models.Model):
 	suggestions = models.TextField()
 	# created_on = models.DateTimeField(auto_now_add=True)
 
+	def __unicode__(self):
+	    return self.suggestions
+
 class UserGoogleQuery(models.Model):
 	google_query = models.ForeignKey('GoogleQuery', related_name='google_query_set')
 	suggestions = models.ManyToManyField('GoogleSuggestion', through='UserQuerySuggestion')
@@ -35,6 +38,9 @@ class UserQuerySuggestion(models.Model):
 	user_query = models.ForeignKey('UserGoogleQuery')
 	suggestion = models.ForeignKey('GoogleSuggestion')
 	rank = models.PositiveIntegerField()
+
+	def __unicode__(self):
+	    return 'userquery id {} suggestion rank {}'.format(self.user_query.id, self.rank)
 
 # Because everything has a meaning:
 
